@@ -1,0 +1,18 @@
+{
+  "name": "@winget-desktop/kit",
+  "version": "1.0.0",
+  "private": false,
+  "engines": {
+    "node": "^16.10.0 || >=18.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev:prepare": "unbuild --stub",
+    "prepack": "unbuild"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "dependencies": {
+    "jiti": "^2.4.2",
+    "unbuild": "^3.5.0"
+  }
+}
