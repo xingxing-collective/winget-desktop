@@ -1,18 +1,20 @@
 {
-  "name": "@winget-desktop/kit",
+  "name": "@winget-desktop/cli",
   "version": "1.0.0",
   "private": false,
-  "engines": {
-    "node": "^16.10.0 || >=18.0.0"
-  },
   "scripts": {
     "build": "unbuild",
     "dev:prepare": "unbuild --stub",
     "prepack": "unbuild"
   },
-  "packageManager": "pnpm@10.9.0",
   "dependencies": {
+    "consola": "^3.4.2",
+    "execa": "^9.6.0",
     "jiti": "^2.4.2",
     "unbuild": "^3.5.0"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": "^16.10.0 || >=18.0.0"
   }
 }

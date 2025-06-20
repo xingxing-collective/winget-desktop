@@ -1,1 +1,3 @@
-console.log('Hello Winget Desktop')
+import { command } from '../packages/cli/src'
+
+await command()
