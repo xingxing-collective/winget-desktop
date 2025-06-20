@@ -20,3 +20,7 @@ export function parse(input: string) {
     throw err;
   }
 }
+
+export function argParse(args: any) {
+  return Object.values(args).join(' ')
+}

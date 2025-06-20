@@ -1,3 +1,5 @@
-import { command } from '../packages/cli/src'
+import { ls } from '../packages/cli/src/commands'
 
-await command()
+const result= await ls({ name: '-q', value: 'vscode' })
+
+console.log(result)
