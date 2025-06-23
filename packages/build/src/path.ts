@@ -6,6 +6,6 @@ export const pkgRoot = resolve(proRoot, 'packages')
 
 export const appRoot = resolve(proRoot,'.winget-desktop')
 
-export const apps = resolve(proRoot, '.winget-desktop/apps.json')
+export const appsPath = resolve(proRoot, '.winget-desktop/apps.json')
 
-export const settings = resolve(proRoot, '.winget-desktop/settings.json')
+export const settingsPath = resolve(proRoot, '.winget-desktop/settings.json')
