@@ -2,6 +2,7 @@
   "name": "winget-desktop",
   "version": "1.0.0",
   "scripts": {
+    "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -12,7 +13,10 @@
   },
   "packageManager": "pnpm@10.9.0",
   "license": "MIT",
-    "engines": {
+  "engines": {
     "node": "^16.10.0 || >=18.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }
