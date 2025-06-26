@@ -1,7 +1,7 @@
 import { execa } from 'execa'
 import { existsSync } from 'node:fs'
-import { getAppStorage } from '../utils'
-import { appsPath } from '../../../build/src'
+import { getAppStorage } from '../../utils'
+import { appsPath } from '../../../../build/src'
 
 export const ls = async () => {
   if (existsSync(appsPath)) {

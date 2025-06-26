@@ -1,1 +1,2 @@
-export * from './ls'
+export * from './powershell'
+export * from './winget'

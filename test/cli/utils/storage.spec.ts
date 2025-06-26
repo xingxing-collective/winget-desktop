@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { ls, setAppStorage } from "../../packages/cli/src";
+import { ls, setAppStorage } from "../../../packages/cli/src";
 
 describe('Init Apps', () => {
   it('generate winget desktop apps storage', async () => {

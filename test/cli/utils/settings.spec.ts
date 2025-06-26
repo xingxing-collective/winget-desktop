@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { initSettings } from "../../packages/cli/src";
+import { initSettings } from "../../../packages/cli/src";
 
 describe('Init Settings', () => {
   

@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     testTimeout: 1000,
     globals: true,
-    include: ['./test/cli/**.spec.ts']
+    include: ['./test/cli/**/**.spec.ts']
   }
 })
