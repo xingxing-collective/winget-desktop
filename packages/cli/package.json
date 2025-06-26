@@ -11,6 +11,7 @@
     "consola": "^3.4.2",
     "execa": "^9.6.0",
     "jiti": "^2.4.2",
+    "mri": "^1.2.0",
     "unbuild": "^3.5.0"
   },
   "packageManager": "pnpm@10.9.0",

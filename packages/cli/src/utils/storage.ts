@@ -1,20 +1,33 @@
 import { existsSync } from 'node:fs'
+import { dirname } from 'node:path'
 import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises'
-import { appRoot, appsPath as appsPath } from '../../../build/src/index'
+import { appsPath as appsPath } from '../../../build/src/index'
 
-export const getAppStorage = async () => {
-  return await readFile(appsPath, 'utf-8')
+export const getStorage = async (path: string) => {
+  return await readFile(path, 'utf-8')
 }
 
-export const setAppStorage = async (apps: string) => {
-  if (!existsSync(appRoot)) {
-    await mkdir(appRoot)
+export const setStorage = async (path: string, data: string) => {
+  if (!existsSync(dirname(path))) {
+    await mkdir(dirname(path))
   }
-  await writeFile(appsPath, apps,{
-    encoding:'utf-8'
+  await writeFile(path, data, {
+    encoding: 'utf-8'
   })
 }
 
+export const removeStorage = async (path: string) => {
+  await unlink(path)
+}
+
+export const getAppStorage = async () => {
+  return await getStorage(appsPath)
+}
+
+export const setAppStorage = async (data: string) => {
+  await setStorage(appsPath, data)
+}
+
 export const removeAppStorage = async () => {
-  await unlink(appsPath)
+  await removeStorage(appsPath)
 }
