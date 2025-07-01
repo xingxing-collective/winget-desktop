@@ -19,7 +19,9 @@ describe('Test Storage', () => {
   })
 
   it('Remove Storage', async () => {
-    await setStorage('./remove-storage.txt', 'Test Remove Storage.')
+    await writeFile('./remove-storage.txt', 'Test Remove Storage.', {
+      encoding: 'utf8'
+    })
     await removeStorage('./remove-storage.txt')
   })
 

@@ -1,3 +1,4 @@
-export * from './get'
+export * from './package/get'
+export * from './package/find'
 
-export * from './find'
+export * from './version'
