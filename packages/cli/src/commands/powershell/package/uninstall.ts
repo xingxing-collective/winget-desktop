@@ -1,9 +1,21 @@
 import { execa } from "execa"
+import { reviver } from "../../../utils"
 
 
-type Keys = '-Force' | '-Id' | '-Log' | '-MatchOption' | '-Mode' | '-Moniker' | '-Name'
+type UninstallPackageParameters = '-Force' | '-Id' | '-Log' | '-MatchOption' | '-Mode' | '-Moniker' | '-Name'
   | '-PSCatalogPackage' | '-Query' | '-Source' | '-Version' | '-Confirm' | '-WhatIf' | '-Tag'
-type CwdArgs = [Keys, string | number | string[]][] | string
+type UninstallPackageCwdArgs = [UninstallPackageParameters, string | number | string[]][] | string
+
+export type UninstallResult = {
+  id: string
+  name: string
+  source: string
+  correlationData: string
+  extendedErrorCode: null
+  rebootRequired: boolean,
+  status: string
+  uninstallerErrorCode: number
+}
 
 /**
  Uninstalls a WinGet Package.
@@ -12,7 +24,7 @@ type CwdArgs = [Keys, string | number | string[]][] | string
  The command includes parameters to specify values used to search for installed packages. 
  By default, all string-based searches are case-insensitive substring searches. 
  Wildcards are not supported. You can change the search behavior using the MatchOption parameter.
- @param {CwdArgs} cwdArgs
+ @param {UninstallPackageCwdArgs} cwdArgs
  @returns `Microsoft.WinGet.Client.Engine.PSObjects.PSUninstallResult`
  @example <caption>Uninstall a package using a query</caption> 
 
@@ -39,7 +51,7 @@ type CwdArgs = [Keys, string | number | string[]][] | string
  ```
 
  */
-export const uninstall = async (cwdArgs: CwdArgs) => {
+export const uninstall = async (cwdArgs: UninstallPackageCwdArgs):Promise<UninstallResult> => {
   const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
 
   const command = `
@@ -47,5 +59,5 @@ export const uninstall = async (cwdArgs: CwdArgs) => {
     Uninstall-WinGetPackage ${args} | ConvertTo-Json
   `
   const { stdout } = await execa('powershell', ['-Command', command])
-  return stdout
+  return JSON.parse(stdout,reviver)
 }
