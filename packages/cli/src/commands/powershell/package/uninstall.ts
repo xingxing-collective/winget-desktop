@@ -1,5 +1,6 @@
 import { execa } from "execa"
 import { PackageFieldMatchOption } from "../../../types"
+import { destr } from "destr"
 
 type PackageUninstallMode = 'Default' | 'Silent' | 'Interactive'
 
@@ -73,5 +74,5 @@ export const uninstall = async (cwdArgs: UninstallPackageArgs): Promise<Uninstal
     Uninstall-WinGetPackage ${args} | ConvertTo-Json -Depth 5
   `
   const { stdout } = await execa('powershell', ['-Command', command])
-  return JSON.parse(stdout)
+  return destr(stdout)
 }

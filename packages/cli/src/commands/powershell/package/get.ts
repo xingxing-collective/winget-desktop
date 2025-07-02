@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs'
 import { getStorage, setAppStorage } from '../../../utils'
 import { appsPath } from '../../../path'
 import { PackageFieldMatchOption } from '../../../types'
+import { destr } from 'destr'
 
 type CommandParameters = ['-Command', string] | ['-Count', number] | ['-Id', string]
   | ['-MatchOption', PackageFieldMatchOption] | ['-Moniker', string] | ['-Name', string]
@@ -54,7 +55,7 @@ export const get = async (cwdArgs?: GetPackageArgs): Promise<InstalledCatalogPac
   const args = cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || ''
   if (existsSync(appsPath)) {
     const apps = await getStorage(appsPath)
-    return JSON.parse(apps)
+    return destr(apps)
   }
 
   const command = `
@@ -63,5 +64,5 @@ export const get = async (cwdArgs?: GetPackageArgs): Promise<InstalledCatalogPac
   `
   const { stdout } = await execa('powershell', ['-Command', command])
   await setAppStorage(stdout)
-  return JSON.parse(stdout)
+  return destr(stdout)
 }

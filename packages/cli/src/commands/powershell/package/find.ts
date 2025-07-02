@@ -1,4 +1,5 @@
 import { execa } from 'execa'
+import { destr } from 'destr'
 import { PackageFieldMatchOption } from "../../../types"
 
 type CommandParameters = ['-Command', string] | ['-Count', number] | ['-Id', string]
@@ -40,7 +41,7 @@ export type FoundCatalogPackage = {
  ```
 
  */
-export const find = async (cwdArgs: FindPackageArgs): Promise<FoundCatalogPackage> => {
+export const find = async (cwdArgs: FindPackageArgs) => {
   const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
 
   const command = `
@@ -48,5 +49,5 @@ export const find = async (cwdArgs: FindPackageArgs): Promise<FoundCatalogPackag
     Find-WinGetPackage ${args} | ConvertTo-Json
   `
   const { stdout } = await execa('powershell', ['-Command', command])
-  return JSON.parse(stdout)
+  return destr<FoundCatalogPackage>(stdout)
 }

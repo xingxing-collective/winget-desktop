@@ -1,5 +1,6 @@
 import { execa } from "execa"
 import { PackageFieldMatchOption } from "../../../types"
+import { destr } from "destr"
 
 type PackageInstallerType = 'Default' | 'Inno' | 'Wix' | 'Msi' | 'Nullsoft' | 'Zip' | 'Msix' | 'Exe' | 'Burn' | 'MSStore' | 'Portable'
 type PackageInstallMode = 'Default' | 'Silent' | 'Interactive'
@@ -80,7 +81,7 @@ export const install = async (cwdArgs: InstallPackageArgs): Promise<InstallResul
   const subprocess = execa('powershell', ['-Command', command])
   try {
     const { stdout } = await subprocess
-    return JSON.parse(stdout)
+    return destr(stdout)
   } catch (error) {
     throw error
   } finally {
