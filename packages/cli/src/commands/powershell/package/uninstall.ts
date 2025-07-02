@@ -1,20 +1,33 @@
 import { execa } from "execa"
-import { reviver } from "../../../utils"
+import { PackageFieldMatchOption } from "../../../types"
 
+type PackageUninstallMode = 'Default' | 'Silent' | 'Interactive'
 
-type UninstallPackageParameters = '-Force' | '-Id' | '-Log' | '-MatchOption' | '-Mode' | '-Moniker' | '-Name'
-  | '-PSCatalogPackage' | '-Query' | '-Source' | '-Version' | '-Confirm' | '-WhatIf' | '-Tag'
-type UninstallPackageCwdArgs = [UninstallPackageParameters, string | number | string[]][] | string
+type CommandParameters = ['-Force', unknown] | ['-Id', string] | ['-Log', string]
+  | ['-MatchOption', PackageFieldMatchOption] | ['-Mode', PackageUninstallMode] | ['-Moniker', string]
+  | ['-Name', string] | ['-PSCatalogPackage', unknown] | ['-Query', string[]] | ['-Source', string]
+  | ['-Version', string] | ['-Confirm', unknown] | ['-WhatIf', unknown]
+
+export type UninstallPackageArgs = CommandParameters[] | string
 
 export type UninstallResult = {
-  id: string
-  name: string
-  source: string
-  correlationData: string
-  extendedErrorCode: null
-  rebootRequired: boolean,
-  status: string
-  uninstallerErrorCode: number
+  Id: string
+  Name: string
+  Source: string
+  UninstallerErrorCode: number
+  Status: string
+  RebootRequired: boolean
+  ExtendedErrorCode: {
+    Message: unknown
+    Data: unknown
+    InnerException: unknown
+    TargetSite: unknown
+    StackTrace: unknown
+    HelpLink: unknown
+    Source: unknown
+    HResult: unknown
+  } | null
+  CorrelationData: string
 }
 
 /**
@@ -24,8 +37,9 @@ export type UninstallResult = {
  The command includes parameters to specify values used to search for installed packages. 
  By default, all string-based searches are case-insensitive substring searches. 
  Wildcards are not supported. You can change the search behavior using the MatchOption parameter.
- @param {UninstallPackageCwdArgs} cwdArgs
+ @param { UninstallPackageArgs } cwdArgs
  @returns `Microsoft.WinGet.Client.Engine.PSObjects.PSUninstallResult`
+ https://www.powershellgallery.com/packages/Microsoft.WinGet.Client/1.9.2505/Content/Format.ps1xml
  @example <caption>Uninstall a package using a query</caption> 
 
  ``` powershell
@@ -51,13 +65,13 @@ export type UninstallResult = {
  ```
 
  */
-export const uninstall = async (cwdArgs: UninstallPackageCwdArgs):Promise<UninstallResult> => {
+export const uninstall = async (cwdArgs: UninstallPackageArgs): Promise<UninstallResult> => {
   const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
 
   const command = `
     $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Uninstall-WinGetPackage ${args} | ConvertTo-Json
+    Uninstall-WinGetPackage ${args} | ConvertTo-Json -Depth 5
   `
   const { stdout } = await execa('powershell', ['-Command', command])
-  return JSON.parse(stdout,reviver)
+  return JSON.parse(stdout)
 }

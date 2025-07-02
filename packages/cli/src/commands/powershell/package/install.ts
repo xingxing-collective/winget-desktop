@@ -1,17 +1,17 @@
 import { execa } from "execa"
+import { PackageFieldMatchOption } from "../../../types"
 
 type PackageInstallerType = 'Default' | 'Inno' | 'Wix' | 'Msi' | 'Nullsoft' | 'Zip' | 'Msix' | 'Exe' | 'Burn' | 'MSStore' | 'Portable'
-type PackageFieldMatchOption = 'Equals' | 'EqualsCaseInsensitive' | 'StartsWithCaseInsensitive' | 'ContainsCaseInsensitive'
 type PackageInstallMode = 'Default' | 'Silent' | 'Interactive'
 type PackageInstallScope = 'Any' | 'User' | 'System' | 'UserOrUnknown' | 'SystemOrUnknown'
 
-export type CommandParameters = ['-AllowHashMismatch', unknown] | ['-Architecture', unknown] | ['-Custom', string] | ['-Force', unknown]
+type CommandParameters = ['-AllowHashMismatch', unknown] | ['-Architecture', unknown] | ['-Custom', string] | ['-Force', unknown]
   | ['-Header', string] | ['-Id', string] | ['-InstallerType', PackageInstallerType] | ['-Locale', string] | ['-Location', string]
   | ['-Log', string] | ['-MatchOption', PackageFieldMatchOption] | ['-Mode', PackageInstallMode] | ['-Moniker', string] | ['-Name', string]
   | ['-Override', string] | ['-PSCatalogPackage', unknown] | ['-Query', string[]] | ['-Scope', PackageInstallScope] | ['-SkipDependencies', unknown]
   | ['-Source', string] | ['-Version', string] | ['-Confirm' | '--cf', unknown] | ['-WhatIf' | '--wf', unknown]
 
-export type InstallPackageParameters = CommandParameters[] | string
+export type InstallPackageArgs = CommandParameters[] | string
 
 export type InstallResult = {
   Id: string
@@ -42,7 +42,7 @@ export type InstallResult = {
  By default, the command searches all sources. 
  By default, all string-based searches are case-insensitive substring searches. Wildcards are not supported. 
  You can change the search behavior using the MatchOption parameter.
- @param { InstallPackageCwdArgs } cwdArgs
+ @param { InstallPackageArgs } cwdArgs
  @returns `Microsoft.WinGet.Client.Engine.PSObjects.PSInstallResult`
  https://www.powershellgallery.com/packages/Microsoft.WinGet.Client/1.9.2505/Content/Format.ps1xml
  @example <caption>Install a package using a query</caption> 
@@ -70,7 +70,7 @@ export type InstallResult = {
  ```
 
  */
-export const install = async (cwdArgs: InstallPackageParameters): Promise<InstallResult> => {
+export const install = async (cwdArgs: InstallPackageArgs): Promise<InstallResult> => {
   const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
 
   const command = `

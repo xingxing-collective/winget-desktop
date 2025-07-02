@@ -1,21 +1,24 @@
 import { execa } from 'execa'
-import { reviver } from '../../../utils'
+import { PackageFieldMatchOption } from "../../../types"
 
-export type FindPackageParameters = '-Command' | '-Count' | '-Id' | '-MatchOption' | '-Moniker' | '-Name' | '-Query' | '-Source' | '-Tag'
-export type FindPackageCwdArgs = [FindPackageParameters, string | number | string[]][] | string
+type CommandParameters = ['-Command', string] | ['-Count', number] | ['-Id', string]
+  | ['-MatchOption', PackageFieldMatchOption] | ['-Moniker', string] | ['-Name', string]
+  | ['-Query', string[]] | ['-Source', string] | ['-Tag', string]
+
+export type FindPackageArgs = CommandParameters[] | string
 
 export type FoundCatalogPackage = {
-  name: string
-  id: string
-  version: string
-  source: string
+  Name: string
+  Id: string
+  Version: string
+  Source: string
 }[]
 
 /**
  Searches for packages from configured sources.
  
  @description Searches for packages from configured sources.
- @param { FindPackageCwdArgs } cwdArgs
+ @param { FindPackageArgs } cwdArgs
  @returns `Microsoft.WinGet.Client.Engine.PSObjects.PSFoundCatalogPackage`
  https://www.powershellgallery.com/packages/Microsoft.WinGet.Client/1.9.2505/Content/Format.ps1xml
  @example <caption>Search for PowerShell</caption> 
@@ -37,7 +40,7 @@ export type FoundCatalogPackage = {
  ```
 
  */
-export const find = async (cwdArgs: FindPackageCwdArgs): Promise<FoundCatalogPackage> => {
+export const find = async (cwdArgs: FindPackageArgs): Promise<FoundCatalogPackage> => {
   const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
 
   const command = `
@@ -45,5 +48,5 @@ export const find = async (cwdArgs: FindPackageCwdArgs): Promise<FoundCatalogPac
     Find-WinGetPackage ${args} | ConvertTo-Json
   `
   const { stdout } = await execa('powershell', ['-Command', command])
-  return JSON.parse(stdout, reviver)
+  return JSON.parse(stdout)
 }
