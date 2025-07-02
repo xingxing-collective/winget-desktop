@@ -1,4 +1,5 @@
 export * from './package/get'
 export * from './package/find'
 export * from './package/uninstall'
+export * from './package/install'
 export * from './version'
