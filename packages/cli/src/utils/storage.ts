@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises'
-import { appsPath as appsPath } from '../../../build/src/index'
+import { appsPath as appsPath } from '../path'
 
 export const getStorage = async (path: string) => {
   return await readFile(path, 'utf-8')

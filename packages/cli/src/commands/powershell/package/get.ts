@@ -1,7 +1,7 @@
 import { execa } from 'execa'
 import { existsSync } from 'node:fs'
 import { getStorage, reviver, setAppStorage } from '../../../utils'
-import { appsPath } from '../../../../../build/src'
+import { appsPath } from '../../../path'
 
 export type GetPackageParameters = '-Command' | '-Count' | '-Id' | '-MatchOption' | '-Moniker' | '-Name' | '-Query' | '-Source' | '-Tag'
 export type GetPackageCwdArgs = [GetPackageParameters, string | number | string[]][]

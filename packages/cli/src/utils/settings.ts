@@ -1,6 +1,6 @@
 import { writeFile, mkdir } from "node:fs/promises"
 import { existsSync } from 'fs'
-import { appRoot, settingsPath } from '../../../build/src/index'
+import { appRoot, settingsPath } from '../path'
 
 export const defaultSettings = {
   name: 'vscode'
