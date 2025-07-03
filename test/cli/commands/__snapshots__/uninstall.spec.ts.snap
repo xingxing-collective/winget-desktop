@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Uninstall-WinGetPackage > Uninstall a package by Id 1`] = `
+{
+  "CorrelationData": "",
+  "ExtendedErrorCode": {
+    "Data": {},
+    "HResult": -2147023278,
+    "HelpLink": null,
+    "InnerException": null,
+    "Message": "Another installation is already in progress. Complete that installation before proceeding with this install. (异常来自 HRESULT:0x80070652)",
+    "Source": null,
+    "StackTrace": null,
+    "TargetSite": null,
+  },
+  "Id": "Microsoft.PowerShell",
+  "Name": "PowerShell",
+  "RebootRequired": false,
+  "Source": "winget",
+  "Status": "InternalError",
+  "UninstallerErrorCode": 0,
+}
+`;
+
+exports[`Uninstall-WinGetPackage > Uninstall a package using a query 1`] = `
+{
+  "CorrelationData": "",
+  "ExtendedErrorCode": {
+    "Data": {},
+    "HResult": -2147023278,
+    "HelpLink": null,
+    "InnerException": null,
+    "Message": "Another installation is already in progress. Complete that installation before proceeding with this install. (异常来自 HRESULT:0x80070652)",
+    "Source": null,
+    "StackTrace": null,
+    "TargetSite": null,
+  },
+  "Id": "Microsoft.PowerShell",
+  "Name": "PowerShell",
+  "RebootRequired": false,
+  "Source": "winget",
+  "Status": "InternalError",
+  "UninstallerErrorCode": 0,
+}
+`;

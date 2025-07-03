@@ -1,13 +1,20 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { get } from "../../../packages/cli/src";
 
-describe('Test Get WinGetPackage', () => {
-  it('Get-WinGetPackage', async () => {
-    await get()
-  },200000)
+describe('Get-WinGetPackage', () => {
+  it('Default example', async () => {
+    const apps = await get()
+    expect(apps).toMatchSnapshot()
+  }, Infinity)
 
-  it('Get-WinGetPackage set Id arg', async () => {
-    await get([['-Id', 'Microsoft.PowerShell']])
-  },100000)
+  it('Get package by Id', async () => {
+    const app = await get([['-Id', 'Microsoft.PowerShell']])
+    expect(app).toMatchSnapshot()
+  }, Infinity)
+
+  it('Get package(s) by name', async () => {
+    const app = await get([['-Name', 'PowerShell']])
+    expect(app).toMatchSnapshot()
+  }, Infinity)
 
 })

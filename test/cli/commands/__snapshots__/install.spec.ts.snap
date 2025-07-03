@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Install-WinGetPackage > Install a package by Id 1`] = `
+{
+  "CorrelationData": "",
+  "ExtendedErrorCode": null,
+  "Id": "Microsoft.PowerShell",
+  "InstallerErrorCode": 0,
+  "Name": "PowerShell",
+  "RebootRequired": false,
+  "Source": "winget",
+  "Status": "Ok",
+}
+`;
+
+exports[`Install-WinGetPackage > Install a package using a query 1`] = `
+{
+  "CorrelationData": "",
+  "ExtendedErrorCode": null,
+  "Id": "Microsoft.PowerShell",
+  "InstallerErrorCode": 0,
+  "Name": "PowerShell",
+  "RebootRequired": false,
+  "Source": "winget",
+  "Status": "Ok",
+}
+`;
+
+exports[`Install-WinGetPackage > Install a specific version of a package 1`] = `
+{
+  "CorrelationData": "",
+  "ExtendedErrorCode": {
+    "Data": {},
+    "HResult": -2147012865,
+    "HelpLink": null,
+    "InnerException": null,
+    "Message": "异常来自 HRESULT:0x80072EFF",
+    "Source": null,
+    "StackTrace": null,
+    "TargetSite": null,
+  },
+  "Id": "Microsoft.PowerShell",
+  "InstallerErrorCode": 0,
+  "Name": "PowerShell",
+  "RebootRequired": false,
+  "Source": "winget",
+  "Status": "InternalError",
+}
+`;

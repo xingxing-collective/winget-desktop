@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { getStorage, removeStorage, setStorage } from "../../../packages/cli/src";
 import { readFile, writeFile } from "fs/promises";
 
-describe('Test Storage', () => {
+describe('Storage', () => {
   it('Get Storage', async () => {
     await writeFile('./get-storage.txt', 'Test Get Storage.')
     const res = await getStorage('./get-storage.txt')
