@@ -6,7 +6,7 @@ type PackageInstallerType = 'Default' | 'Inno' | 'Wix' | 'Msi' | 'Nullsoft' | 'Z
 type PackageInstallMode = 'Default' | 'Silent' | 'Interactive'
 type PackageInstallScope = 'Any' | 'User' | 'System' | 'UserOrUnknown' | 'SystemOrUnknown'
 
-type CommandParameters = ['-AllowHashMismatch', unknown] | ['-Architecture', unknown] | ['-Custom', string] | ['-Force', unknown]
+type CommandParameters = [string] | ['-AllowHashMismatch', unknown] | ['-Architecture', unknown] | ['-Custom', string] | ['-Force', unknown]
   | ['-Header', string] | ['-Id', string] | ['-InstallerType', PackageInstallerType] | ['-Locale', string] | ['-Location', string]
   | ['-Log', string] | ['-MatchOption', PackageFieldMatchOption] | ['-Mode', PackageInstallMode] | ['-Moniker', string] | ['-Name', string]
   | ['-Override', string] | ['-PSCatalogPackage', unknown] | ['-Query', string[]] | ['-Scope', PackageInstallScope] | ['-SkipDependencies', unknown]
