@@ -51,18 +51,25 @@ export type InstalledCatalogPackage = {
  ```
 
  */
-export const get = async (cwdArgs?: GetPackageArgs): Promise<InstalledCatalogPackage> => {
-  const args = cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || ''
-  if (existsSync(appsPath)) {
-    const apps = await getStorage(appsPath)
-    return destr(apps)
-  }
+export const get = async (cwdArgs?: GetPackageArgs) => {
+  try {
 
-  const command = `
-    $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Get-WinGetPackage ${args} | ConvertTo-Json
-  `
-  const { stdout } = await execa('powershell', ['-Command', command])
-  await setAppStorage(stdout)
-  return destr(stdout)
+    const args = cwdArgs?.map(x => x.join(' ')).join(' ') || ''
+
+    if (existsSync(appsPath)) {
+      const apps = await getStorage(appsPath)
+      return destr<InstalledCatalogPackage>(apps)
+    }
+
+    const command = `
+      $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
+      Get-WinGetPackage ${args} | ConvertTo-Json
+    `
+    const { stdout } = await execa('powershell', ['-Command', command])
+    await setAppStorage(stdout)
+    return destr<InstalledCatalogPackage>(stdout)
+
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
 }

@@ -66,13 +66,19 @@ export type UninstallResult = {
  ```
 
  */
-export const uninstall = async (cwdArgs: UninstallPackageArgs): Promise<UninstallResult> => {
-  const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
+export const uninstall = async (cwdArgs: UninstallPackageArgs) => {
+  try {
+    const args = Array.isArray(cwdArgs)
+      ? cwdArgs.map(x => x.join(' ')).join(' ')
+      : cwdArgs
 
-  const command = `
-    $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Uninstall-WinGetPackage ${args} | ConvertTo-Json -Depth 5
-  `
-  const { stdout } = await execa('powershell', ['-Command', command])
-  return destr(stdout)
+    const command = `
+      $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
+      Uninstall-WinGetPackage ${args} | ConvertTo-Json -Depth 5
+    `
+    const { stdout } = await execa('powershell', ['-Command', command])
+    return destr<UninstallResult>(stdout)
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
 }

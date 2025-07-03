@@ -71,21 +71,22 @@ export type InstallResult = {
  ```
 
  */
-export const install = async (cwdArgs: InstallPackageArgs): Promise<InstallResult> => {
-  const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
+export const install = async (cwdArgs: InstallPackageArgs) => {
 
-  const command = `
-    $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Install-WinGetPackage ${args} | ConvertTo-Json -Depth 5
-  `
-  const subprocess = execa('powershell', ['-Command', command])
   try {
-    const { stdout } = await subprocess
-    return destr(stdout)
-  } catch (error) {
-    throw error
-  } finally {
-    subprocess.kill()
+    const args = Array.isArray(cwdArgs)
+      ? cwdArgs.map(x => x.join(' ')).join(' ')
+      : cwdArgs
+
+    const command = `
+      $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
+      Install-WinGetPackage ${args} | ConvertTo-Json -Depth 5
+    `
+    const { stdout } = await execa('powershell', ['-Command', command])
+
+    return destr<InstallResult>(stdout)
+  } catch (error: any) {
+    throw new Error(error.message)
   }
 
 }

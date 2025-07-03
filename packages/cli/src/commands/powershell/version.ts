@@ -12,11 +12,16 @@ import { execa } from "execa"
  ```
 
  */
-export const getVersion = async () => {
-  const command = `
-    $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Get-WinGetVersion | ConvertTo-Json
-  `
-  const { stdout } = await execa('powershell', ['-Command', command])
-  return stdout
+export const version = async () => {
+
+  try {
+    const command = `
+      $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
+      Get-WinGetVersion
+    `
+    const { stdout } = await execa('powershell', ['-Command', command])
+    return stdout
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
 }

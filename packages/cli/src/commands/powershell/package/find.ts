@@ -42,12 +42,18 @@ export type FoundCatalogPackage = {
 
  */
 export const find = async (cwdArgs: FindPackageArgs) => {
-  const args = Array.isArray(cwdArgs) ? cwdArgs?.map(x => x.join(' ') || '')?.join(' ') || '' : cwdArgs
+  try {
+    const args = Array.isArray(cwdArgs) ? cwdArgs.map(x => x.join(' ')).join(' ') : cwdArgs
 
-  const command = `
-    $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
-    Find-WinGetPackage ${args} | ConvertTo-Json
-  `
-  const { stdout } = await execa('powershell', ['-Command', command])
-  return destr<FoundCatalogPackage>(stdout)
+    const command = `
+      $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
+      Find-WinGetPackage ${args} | ConvertTo-Json
+    `
+    const { stdout } = await execa('powershell', ['-Command', command])
+
+    return destr<FoundCatalogPackage>(stdout)
+
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
 }
