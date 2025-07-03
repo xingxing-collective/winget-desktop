@@ -4,7 +4,7 @@ import { destr } from "destr"
 
 type PackageUninstallMode = 'Default' | 'Silent' | 'Interactive'
 
-type CommandParameters = ['-Force', unknown] | ['-Id', string] | ['-Log', string]
+type CommandParameters = [string] | ['-Force', unknown] | ['-Id', string] | ['-Log', string]
   | ['-MatchOption', PackageFieldMatchOption] | ['-Mode', PackageUninstallMode] | ['-Moniker', string]
   | ['-Name', string] | ['-PSCatalogPackage', unknown] | ['-Query', string[]] | ['-Source', string]
   | ['-Version', string] | ['-Confirm', unknown] | ['-WhatIf', unknown]
